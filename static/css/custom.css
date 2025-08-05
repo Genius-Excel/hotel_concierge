@@ -1,0 +1,23 @@
+.container {
+    max-width: 1000px;
+    text-align: justify;
+}
+
+
+div.dt-container .dt-input {
+        margin-right: 7px;
+    }
+
+div.dt-container .dt-paging .dt-paging-button {
+        padding: 0;
+    }
+    .page-item.active .page-link {
+    z-index: 1;
+    color: #222222;
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+/* div.dt-container .dt-paging .dt-paging-button{
+    
+} */
