@@ -7,17 +7,17 @@ from .models import ( HotelCustomerQuery,
 from .serializers import (HotelCustomerQuerySerializer,
                           HotelEnglishSpeakingCustomerQuerySerializer, HotelInRoomRequestSerializer,
                           HotelSpanishSpeakingCustomerQuerySerializer,
-                          HotelCustomerVoiceCallSerializer,)
+                          HotelCustomerVoiceCallSerializer, CreateUserSerializer)
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .utils import custom_email_sender, custom_sms_sender, send_email_with_html_template
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
+from .models import CustomUser as User
 
 
 ## Laundry Clinic View logic
@@ -26,6 +26,15 @@ from django.core.paginator import Paginator
 
 def home(request):
     return render(request, 'reminder/home.html')
+
+class CreateUserView(generics.CreateAPIView):
+    serializer_class = CreateUserSerializer
+
+    def perform_create(self, serializer):
+        user = serializer.save()
+        messages.success(self.request, "User created successfully!")
+        return user
+
 
 class CreateLaundryClinicEmailApology(generics.CreateAPIView):
     queryset = HotelCustomerQuery.objects.all()
