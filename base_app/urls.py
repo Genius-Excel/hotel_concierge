@@ -10,6 +10,8 @@ urlpatterns = [
     path('api/create-english-customer-query', views.CreateEnglishSpeakingCustomersQuery.as_view(), name='english-customers'),
     path('api/create-spanish-customer-query', views.CreateSpanishSpeakingCustomersQuery.as_view(), name='spanish-customers'),
     path('api/update-spanish-customer-query/<int:spreadsheet_row>', views.UpdateSpanishSpeakingcustomersQuery.as_view(), name='update-spanish-customers'),
+
+    path('api/create-in-room-request', views.CreateInRoomRequest.as_view(), name='create-in-room-request'),
     
     path('login-user/', views.login_user, name='login-user'),
     path('logout-user/', views.logout_user, name='logout-user'),
