@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laundry Clinic</title>
+</head>
+<body>
+
+    <table>
+        <thead>
+            <th>#</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Complaints (English)</th>
+            <th>Complaints (Spaish) </th>
+            <th>Comments (English) </th>
+            <th>Comments (Spanish) </th>
+            <th>AI Response to customer Complaints (English) </th>
+            <th>AI Response to customer Complaints (Spanish) </th>
+            <th>Laundry Event Details (English) </th>
+            <th>Laundry Event Details (Spanish) </th>
+            <th>Timestamp</th>
+            <th>Laundry Location</th>
+            <th>AI Email Response</th>
+        </thead>
+
+        <tbody>
+            {% for customer in customers %}
+            <tr>
+                <td>{{customer.id}}</td>
+                <td>{{customer.first_name}}</td>
+                <td>{{customer.last_name}}</td>
+                <td>{{customer.email_address}}</td>
+                <td>{{customer.phone_number}}</td>
+                <td>{{customer.customer_query_message_english}}</td>
+                <td>{{customer.customer_query_message_spanish}}</td>
+                <td>{{customer.customer_comments_english}}</td>
+                <td>{{customer.customer_comments_spanish}}</td>
+                <td>{{customer.ai_assistant_response_english}}</td>
+                <td>{{customer.ai_assistant_response_spanish}}</td>
+                <td>{{customer.laundry_event_details_english}}</td>
+                <td>{{customer.laundry_event_details_spanish}}</td>
+                <td>{{customer.timestamp}}</td>
+                <td>{{customer.location}}</td>
+                <td>{{customer.ai_email_response_spanish}}</td>
+            </tr>
+            {% endfor customers %}
+        </tbody>
+    </table>
+
+
+</body>
+</html>
