@@ -1,5 +1,29 @@
 from django.db import models
 import uuid
+from django.contrib.auth.models import AbstractUser
+
+
+
+class CustomUser(AbstractUser):
+    """Custom user model for Laundry Clinic"""
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True, null=False)
+    username = models.CharField(max_length=150, unique=True)
+    email = models.EmailField(unique=True, null=True)
+    phone_number = models.CharField(max_length=15, null=True, blank=True)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.username
+    
+    class Meta:
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
+        ordering = ['-created_at']
+    
 
 language_options = (
     ("English", "English"),
