@@ -1,0 +1,29 @@
+{% extends 'laundry-base.html' %}
+{% load static %}
+
+{% block title %} AI Assistant Call Details {% endblock title %}
+
+
+{% block dashboard_inner %}
+<div class="container">
+    <!-- <h2>Record Details</h2> -->
+    <br>
+    
+    <p><strong>Caller Name:</strong> {{ customer_call.caller_name }}</p>
+    <p><strong>Phone Number:</strong> {{ customer_call.phone_number }}</p>
+    <p><strong>Call Summary:</strong> {{customer_call.call_summary}}</p>
+    <p><strong>Call Transcript:</strong> {{customer_call.call_transcript}}</p>
+    <p><strong>Recording URL:</strong> <a class="btn btn-secondary" href="{{customer_call.recording_url}}" target="_blank"> <i class="fa fa-headphones yellow_color"></i> </i><span>listen</span> </a> </p>
+    <p><strong>Location:</strong> {{ customer_call.location }}</p>
+    
+    
+    
+    <br>
+    <br>
+    <div class="row">
+        <a href="{{request.META.HTTP_REFERER}}" class="btn btn-warning mr-3">Back to table</a>
+    </div>
+</div>
+
+
+{% endblock dashboard_inner %}
