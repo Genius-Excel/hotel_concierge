@@ -12,6 +12,7 @@ urlpatterns = [
     path('api/update-spanish-customer-query/<int:spreadsheet_row>', views.UpdateSpanishSpeakingcustomersQuery.as_view(), name='update-spanish-customers'),
 
     path('api/create-in-room-request', views.CreateInRoomRequest.as_view(), name='create-in-room-request'),
+    path('api/create-user', views.CreateUserView.as_view(), name='create-user'),
     
     path('login-user/', views.login_user, name='login-user'),
     path('logout-user/', views.logout_user, name='logout-user'),
