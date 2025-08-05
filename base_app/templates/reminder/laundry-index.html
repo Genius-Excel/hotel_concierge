@@ -1,0 +1,137 @@
+{% extends 'laundry-base.html' %}
+{% load static %}
+
+{% block title %} Laundry Clinic {% endblock title %}
+
+
+<style>
+  .table td {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 150px; /* Adjust width as needed */
+  }
+  
+  .table td:hover {
+      overflow: visible;
+      white-space: normal;
+      max-width: none;
+  }
+  </style>
+  
+
+{% block dashboard_inner %}
+
+              <!-- dashboard inner -->
+              <div class="midde_cont">
+               <div class="container-fluid">
+                  <div class="row column_title">
+                     <div class="col-md-12">
+                        <div class="page_title">
+                           <h2>Laundry Clinic Customer Queries</h2>
+                        </div>
+                     </div>
+                  </div>
+
+<!--end to be removed-->
+ <div class="row">
+     <div class="col-md-12">
+       <div class="table-responsive">
+         <table class="table table-striped table-hover" id="chatTableId">
+             <thead class="table-light">
+               <tr>
+                <th scope="col">#</th>
+                 <th scope="col">Customer Name</th>
+                 <th scope="col">Email Address</th>
+                 <th scope="col">Phone Number</th>   
+                 <th scope="col">Complaints</th> 
+                 <th scope="col">Time</th>
+                 <th scope="col">Location</th>
+                 <th scope="col">Actions</th>
+                 <th scope="col">Status</th>
+               </tr>
+             </thead>
+             <tbody>
+             {% for customer in customers %}
+               <tr data-id="{{customer.id}}"
+                data-type = "{% if customer|default_if_none:"" in spanish_customers %}spanish{% else %}english{% endif %}" onclick="window.location.href='/detail/+this.getAttribute('data-type')' / '+ this.getAttribute('data-id')">
+                <th scope="row"> {{ customer.start_index|add:forloop.counter0 }} </th>
+                <td>{{customer.first_name}} {{customer.last_name}}</td>
+                <td>{{customer.email_address}}</td>
+                <td>{{customer.phone_number}}</td>
+                <td>
+                  {% if customer in spanish_customers %}
+                    {{customer.customer_query_message_english|truncatechars:15}}
+                  {% else %}
+                    {{customer.customer_query_message|truncatechars:15}}
+                  {% endif %}
+                </td>
+                <td>{{customer.timestamp}}</td>
+                <td>{{customer.location}}</td>
+                <td> <button class="btn btn-secondary col-md-12" type="submit"><i class="fa fa-eye yellow_color"></i> <span>view</span> </button> </td>
+                <td> {{customer.status}} </td>
+               </tr>
+             {% endfor %}
+             </tbody>
+           </table>
+       </div>
+     </div>
+ </div>
+</div>
+
+<!-- Pagination links -->
+<!-- <div class="pagination">
+<span class="step-links">
+ {% if customers.has_previous %}
+     <a href="?page=1">&laquo; first</a>
+     <a href="?page={{ customers.previous_page_number }}">previous</a>
+ {% endif %}
+
+ <span class="current">
+     Page {{ customers.number }} of {{ customers.paginator.num_pages }}.
+ </span>
+
+ {% if customers.has_next %}
+     <a href="?page={{ customers.next_page_number }}">next</a>
+     <a href="?page={{ customers.paginator.num_pages }}">last &raquo;</a>
+ {% endif %}
+</span>
+</div> -->
+
+</div>
+<!-- footer -->
+<div class="container-fluid">
+<div class="footer">
+<a href="https://optimizewithai.net">
+<p>Powered by optimizewithai.net</p>
+</a>
+</div>
+</div>
+</div>
+<!-- end dashboard inner -->
+
+{% endblock dashboard_inner %}
+
+
+{% block scripts %}  
+
+<script>
+  // JavaScript to make each row clickable and navigate to the detail page
+  document.querySelectorAll('tbody tr').forEach(row => {
+      row.addEventListener('click', () => {
+          const recordId = row.getAttribute('data-id'); // Set this data-id dynamically
+          const recordType = row.getAttribute('data-type');
+
+          window.location.href = `/detail/${recordType}/${recordId}`;
+      });
+  });
+</script>
+
+<script src="https://cdn.datatables.net/2.1.5/js/dataTables.js"></script>
+   <script src="https://cdn.datatables.net/2.1.5/js/dataTables.bootstrap4.js"></script>
+   
+   <script>
+    $('#chatTableId').DataTable();
+</script>
+
+{% endblock scripts %}
