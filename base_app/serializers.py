@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import (HotelCustomerQuery, HotelEnglishSpeakingCustomerQuery,
-                      HotelSpanishSpeakingCustomerQuery, HotelCustomerVoiceCall,)
+                      HotelSpanishSpeakingCustomerQuery, HotelCustomerVoiceCall, HotelInRoomRequest)
 
 
 class HotelCustomerQuerySerializer(serializers.ModelSerializer):
@@ -24,4 +24,10 @@ class HotelEnglishSpeakingCustomerQuerySerializer(serializers.ModelSerializer):
 class HotelCustomerVoiceCallSerializer(serializers.ModelSerializer):
     class Meta:
         model = HotelCustomerVoiceCall
+        fields = "__all__"
+
+
+class HotelInRoomRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HotelInRoomRequest
         fields = "__all__"
