@@ -1,0 +1,43 @@
+{% load static %}
+
+
+<nav id="sidebar">
+    <div class="sidebar_blog_1">
+       <div class="sidebar-header">
+          <div class="logo_section">
+             <a href="#"><img class="logo_icon img-responsive" src="/static/images/edited-laundry-logo.png" alt="Company Logo" /></a>
+          </div>
+       </div>
+       <div class="sidebar_user_info">
+          <div class="icon_setting"></div>
+          <div class="user_profle_side">
+             <div class="user_img"><img class="img-responsive" src="/static/images/edited-laundry-logo.png" alt="Company Logo" /></div>
+             
+             <div class="user_info">
+                <h6>Admin</h6>
+                <p><span class="online_animation"></span> Online</p>
+             </div>
+          </div>
+       </div>
+    </div>
+    <div class="sidebar_blog_2">
+       <!-- <h4>General</h4> -->
+       
+       <ul class="list-unstyled components">
+          <li>
+             <a href="{% url 'laundry-index' %}">
+               <i class="fa fa-android yellow_color"></i> <span>AI Chatbot Assistant</span></a>
+          </li>
+          <li>
+            <a href="{% url 'laundry-clinic-calls' %}">
+              <i class="fa fa-volume-control-phone green_color"></i> <span>AI Call Assistants</span></a>
+         </li>
+          <li>
+           <a href="{% url 'logout-user' %}">
+             <i class="fa fa-sign-out"></i> <span>Log out</span></a>
+         </li>
+       
+     </div>
+     
+ </nav>
+ 
