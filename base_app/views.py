@@ -3,9 +3,9 @@ from datetime import datetime
 from rest_framework import generics
 from .models import ( HotelCustomerQuery,
                      HotelEnglishSpeakingCustomerQuery, HotelSpanishSpeakingCustomerQuery,
-                     HotelCustomerVoiceCall,)
+                     HotelCustomerVoiceCall, HotelInRoomRequest)
 from .serializers import (HotelCustomerQuerySerializer,
-                          HotelEnglishSpeakingCustomerQuerySerializer,
+                          HotelEnglishSpeakingCustomerQuerySerializer, HotelInRoomRequestSerializer,
                           HotelSpanishSpeakingCustomerQuerySerializer,
                           HotelCustomerVoiceCallSerializer,)
 from django.http import HttpResponse, JsonResponse
@@ -72,6 +72,10 @@ class UpdateSpanishSpeakingcustomersQuery(generics.RetrieveUpdateAPIView):
     queryset = HotelSpanishSpeakingCustomerQuery.objects.all()
     serializer_class = HotelSpanishSpeakingCustomerQuerySerializer
     lookup_field = 'spreadsheet_row'
+
+class CreateInRoomRequest(generics.CreateAPIView):
+    queryset = HotelInRoomRequest.objects.all()
+    serializer_class = HotelInRoomRequestSerializer
 
 
 def list_english_customers(request):
