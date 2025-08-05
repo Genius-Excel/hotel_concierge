@@ -1,0 +1,112 @@
+{% extends 'laundry-base.html' %}
+{% load static %}
+
+{% block title %} AI Calls {% endblock title %}
+
+
+{% block dashboard_inner %}
+
+              <!-- dashboard inner -->
+              <div class="midde_cont">
+               <div class="container-fluid">
+                  <div class="row column_title">
+                     <div class="col-md-12">
+                        <div class="page_title">
+                           <h2>Laundry Clinic AI Calls</h2>
+                        </div>
+                     </div>
+                  </div>
+
+<!--end to be removed-->
+ <div class="row">
+     <div class="col-md-12">
+       <div class="table-responsive">
+         <table class="table table-striped table-hover" id="callsTableId">
+             <thead class="table-light">
+               <tr>
+                <th scope="col">#</th>
+                 <th scope="col">Caller Name</th>
+                 <th scope="col">Phone Number</th>   
+                 <th scope="col">Call Summary</th> 
+                 <th scope="col">Call Transcript</th>
+                 <th scope="col">Recording URL</th>
+                 <th scope="col">Location</th>
+                 <th scope="col">Actions</th>
+               </tr>
+             </thead>
+             <tbody>
+             {% for customer_call in customer_calls %}
+               <tr data-id="{{customer_call.id}}" onclick="window.location.href='laundry-clinic-ai-call/detail/{{customer_call.id}}/'">
+                <th scope="row"> {{ customer.start_index|add:forloop.counter0 }} </th>
+                <td>{{customer_call.caller_name}}</td>
+                <td>{{customer_call.phone_number}}</td>
+                <td>{{customer_call.call_summary|truncatechars:15}}</td>
+                <td>{{customer_call.call_transcript|truncatechars:15}}</td>
+                <td> <a class="btn btn-secondary" href="{{customer_call.recording_url}}" target="_blank"> <i class="fa fa-headphones yellow_color"></i> </i><span>listen</span> </a> </td>
+                <td>{{customer_call.location}}</td>
+                <td> <button class="btn btn-secondary col-md-12" type="submit"><i class="fa fa-eye yellow_color"></i> <span>view</span> </button> </td>
+               </tr>
+             {% endfor %}
+             </tbody>
+           </table>
+       </div>
+     </div>
+ </div>
+</div>
+
+<!-- Pagination links -->
+<!-- <div class="pagination">
+<span class="step-links">
+ {% if customer_calls.has_previous %}
+     <a href="?page=1">&laquo; first</a>
+     <a href="?page={{ customer_calls.previous_page_number }}">previous</a>
+ {% endif %}
+
+ <span class="current">
+     Page {{ customer_calls.number }} of {{ customer_calls.paginator.num_pages }}.
+ </span>
+
+ {% if customers.has_next %}
+     <a href="?page={{ customer_calls.next_page_number }}">next</a>
+     <a href="?page={{ customer_calls.paginator.num_pages }}">last &raquo;</a>
+ {% endif %}
+</span>
+</div> -->
+
+</div>
+<!-- footer -->
+<div class="container-fluid">
+<div class="footer">
+<a href="https://optimizewithai.net">
+<p>Powered by optimizewithai.net</p>
+</a>
+</div>
+</div>
+</div>
+<!-- end dashboard inner -->
+
+{% endblock dashboard_inner %}
+
+
+
+{% block scripts %}  
+
+<script>
+  // JavaScript to make each row clickable and navigate to the detail page
+  document.querySelectorAll('tbody tr').forEach(row => {
+      row.addEventListener('click', () => {
+          const recordId = row.getAttribute('data-id'); // Set this data-id dynamically
+          window.location.href = `/laundry-clinic-ai-call/detail/${recordId}/`;
+      });
+  });
+</script>
+
+
+<script src="https://cdn.datatables.net/2.1.5/js/dataTables.js"></script>
+   <script src="https://cdn.datatables.net/2.1.5/js/dataTables.bootstrap4.js"></script>
+   
+   <script>
+    $('#callsTableId').DataTable();
+</script>
+
+{% endblock scripts %}
