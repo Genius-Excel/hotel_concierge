@@ -101,6 +101,12 @@ class HotelCustomerVoiceCall(models.Model):
 
 
 class HotelInRoomRequest(models.Model):
+    REQUEST_STATUSES = (
+        ("Open", "Open"),
+        ("In Progress", "In Progress"),
+        ("Completed", "Completed"),
+        ("Cancelled", "Cancelled"),
+    )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True, null=False)
     customer_name = models.CharField(max_length=150, null=True)
     phone_number = models.CharField(max_length=50, null=True)
@@ -108,5 +114,5 @@ class HotelInRoomRequest(models.Model):
     room_number = models.CharField(max_length=50, null=True)
     request_type = models.CharField(max_length=50, null=True)
     request_details = models.TextField()
-    request_status = models.CharField(max_length=50, choices=status_options, default="Open", null=True)
+    request_status = models.CharField(max_length=50, choices=REQUEST_STATUSES, default="Open", null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
