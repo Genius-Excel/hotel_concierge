@@ -16,6 +16,7 @@ urlpatterns = [
     
     path('login-user/', views.login_user, name='login-user'),
     path('logout-user/', views.logout_user, name='logout-user'),
+    path('hotel-in-room-requests/', views.list_hotel_in_room_requests, name='in-room-requests'),
     path('list-english-customers/', views.list_english_customers, name='list-english-customers'),
     path('list-spanish-customers/', views.list_spanish_customers, name='list-spanish-customers'),
     path('', views.laundry_clinic_dashboard_test, name='laundry-index'),
