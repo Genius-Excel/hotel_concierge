@@ -231,4 +231,14 @@ def logout_user(request):
     logout(request)
     messages.info(request, "You have been logged out successfully!")
     return redirect('login-user')
-## End Laundry Clinic View Logic
+
+
+def list_hotel_in_room_requests(request):
+    in_room_requests = HotelInRoomRequest.objects.all().order_by('-timestamp')
+
+    paginator = Paginator(in_room_requests, 10)
+    page_number = request.GET.get('page')
+    guest_requests = paginator.get_page(page_number)
+
+    context = {'guests': guest_requests}
+    return render(request, 'reminder/in-room-requests.html', context)
