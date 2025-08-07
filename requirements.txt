@@ -3,3 +3,5 @@ djangorestframework==3.14.0
 python-decouple==3.6
 jinja2
 gunicorn==23.0.0
+mailtrap
+vonage
