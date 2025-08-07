@@ -250,4 +250,17 @@ def get_hotel_inroom_record(request, id):
     context = {'guests': guests}
     return render(request, 'reminder/in-room-record-detail.html', context)
 
-       
+
+def update_in_room_request_status(request, id, action_type):
+    guests = get_object_or_404(HotelInRoomRequest, id=id)
+
+    if action_type == 'do':
+        guests.request_status = "Completed"
+    elif action_type == 'undo':
+        guests.request_status = "Open"
+    else:
+        return HttpResponse("Error: invalid action type")
+
+    guests.save()
+
+    return redirect('in-room-requests')
