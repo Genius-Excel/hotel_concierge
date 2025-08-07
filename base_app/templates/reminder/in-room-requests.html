@@ -39,7 +39,7 @@
        <div class="table-responsive">
          <table class="table table-striped table-hover" id="chatTableId">
              <thead class="table-light">
-               <tr>
+                <tr>
                 <th scope="col">#</th>
                  <th scope="col">Customer Name</th>
                  <th scope="col">Room Number</th> 
@@ -51,6 +51,7 @@
              </thead>
              <tbody>
              {% for guest in guests %}
+                <tr data-id="{{guest.id}}" onclick="window.location.href='/hotel-in-room-record/{{guest.id}}/'">
                 <th scope="row"> {{ guest.start_index|add:forloop.counter0 }} </th>
                 <td>{{guest.first_name}} {% if guest.last_name %}{{guest.last_name}}{% endif %}</td>
                 <td>{{guest.room_number}}</td>
@@ -75,9 +76,8 @@
   document.querySelectorAll('tbody tr').forEach(row => {
       row.addEventListener('click', () => {
           const recordId = row.getAttribute('data-id'); // Set this data-id dynamically
-          const recordType = row.getAttribute('data-type');
 
-          window.location.href = `/detail/${recordType}/${recordId}`;
+          window.location.href = `/hotel-in-room-record/${recordId}/`; // Adjust the URL as needed
       });
   });
 </script>
