@@ -108,7 +108,8 @@ class HotelInRoomRequest(models.Model):
         ("Cancelled", "Cancelled"),
     )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True, null=False)
-    customer_name = models.CharField(max_length=150, null=True)
+    first_name = models.CharField(max_length=150, null=True)
+    last_name = models.CharField(max_length=150, null=True)
     phone_number = models.CharField(max_length=50, null=True)
     email = models.CharField(max_length=50, null=True)
     room_number = models.CharField(max_length=50, null=True)
