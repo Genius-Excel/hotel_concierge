@@ -1,0 +1,36 @@
+{% extends 'laundry-base.html' %}
+{% load static %}
+
+{% block title %} Complaints Details {% endblock title %}
+
+
+
+
+{% block dashboard_inner %}
+<div class="container">
+    <!-- <h2>Record Details</h2> -->
+    <br>
+        <!--Check type of template to be displayed based on language. -->
+
+        <p><strong>First Name:</strong> {{ guests.first_name }}</p>
+        <p><strong>Last Name:</strong> {{ guests.last_name }}</p>
+        <p><strong>Email:</strong> {{guests.email_address}}</p>
+        <p><strong>Phone Number:</strong> {{ guests.phone_number }}</p>
+        <p class="text-wrap"><strong>Complaints:</strong> {{guests.customer_query_message}}</p>
+        <p class="text-wrap"><strong>AI Response:</strong> {{guests.ai_assistant_response}}</p>
+        <p class="text-wrap"><strong>Laundry Event Details:</strong>{{guests.laundry_event_details}}</p>
+        <p><strong>Timestamp:</strong> {{ guests.timestamp }}</p>
+        <p><strong>Location:</strong> {{ guests.location }}</p>
+        <p class="text-wrap"><strong>AI Email Response:</strong> {{guests.ai_email_response}}</p>
+
+
+    <br>
+    <br>
+    <!--  -->
+</div>
+
+    
+</div>
+
+
+{% endblock dashboard_inner %}
