@@ -247,7 +247,7 @@ def list_hotel_in_room_requests(request):
 def get_hotel_inroom_record(request, id):
     guests = get_object_or_404(HotelInRoomRequest, id=id)
 
-    context = {'guests': guests}
+    context = {'guests': guests, 'room_number': guests.room_number}
     return render(request, 'reminder/in-room-record-detail.html', context)
 
 
