@@ -23,21 +23,21 @@
         <p class="text-wrap"><strong>Comments:</strong> {{guests.comments}}</p>
     <br>
     <br>
-    <!--  -->
+    
+    <div class="row">
+        <a href="{{request.META.HTTP_REFERER}}" class="btn btn-warning">Back to table</a>
+
+        <form action="{% url 'update-in-room-request-status' guests.id 'do' %}" method="post" class="ml-3">
+            {% csrf_token %}
+            {% if guests.request_status == 'Open' %}
+                <button class="btn btn-primary" type="submit">Mark as completed</button>
+            {% else %}
+                <button class="btn btn-secondary" type="submit">Undo completion</button>
+            {% endif %}
+        </form>
+    </div>
 </div>
 
 
-<div class="row">
-    <a href="{{request.META.HTTP_REFERER}}" class="btn btn-warning">Back to table</a>
-
-    <form action="{% url 'update-in-room-request-status' guests.id 'do' %}" method="post" class="ml-3">
-        {% csrf_token %}
-        {% if guests.request_status == 'Open' %}
-            <button class="btn btn-primary" type="submit">Mark as Resolved</button>
-        {% else %}
-            <button class="btn btn-secondary" type="submit">Undo Resolution</button>
-        {% endif %}
-    </form>
-</div>
 {% endblock dashboard_inner %}
 
