@@ -18,7 +18,7 @@ urlpatterns = [
     path('logout-user/', views.logout_user, name='logout-user'),
     path('hotel-in-room-requests/', views.list_hotel_in_room_requests, name='in-room-requests'),
     path('hotel-in-room-record/<uuid:id>/', views.get_hotel_inroom_record, name='in-room-record-detail'),
-    path('update-in-room-record/<uuid:id>/<str:action_type>/', views.update_in_room_request_status, name='update-in-room-record-status'),
+    path('update-in-room-record/<uuid:id>/<str:action_type>/', views.update_in_room_request_status, name='update-in-room-request-status'),
 
 
     path('list-english-customers/', views.list_english_customers, name='list-english-customers'),
