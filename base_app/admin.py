@@ -4,6 +4,8 @@ from .models import (
     HotelEnglishSpeakingCustomerQuery,
     HotelSpanishSpeakingCustomerQuery,
     HotelCustomerVoiceCall,
+    CustomUser,
+    HotelInRoomRequest
 
 )
 
@@ -13,3 +15,5 @@ admin.site.register(HotelCustomerQuery)
 admin.site.register(HotelEnglishSpeakingCustomerQuery)
 admin.site.register(HotelSpanishSpeakingCustomerQuery)
 admin.site.register(HotelCustomerVoiceCall)
+admin.site.register(CustomUser)
+admin.site.register(HotelInRoomRequest)
