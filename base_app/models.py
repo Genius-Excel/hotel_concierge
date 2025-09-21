@@ -25,6 +25,19 @@ class CustomUser(AbstractUser):
         ordering = ['-created_at']
     
 
+
+class Employee(models.Model):
+    employee_user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='employee_profile')
+    company = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='employees')
+    full_name = models.CharField(max_length=150, null=True)
+    work_email = models.CharField(max_length=150, null=True)
+    profile_picture = models.ImageField(upload_to='profile_image/', default='profile_image/google-logo.png', null=True)
+    department = models.CharField(max_length=150, null=True)
+    
+    def __str__(self):
+        return f"Employee - {self.employee_user.username}"
+
+
 language_options = (
     ("English", "English"),
     ("Spanish", "Spanish"),
