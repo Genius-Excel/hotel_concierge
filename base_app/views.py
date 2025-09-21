@@ -269,16 +269,12 @@ def update_in_room_request_status(request, id, action_type):
     return redirect('in-room-requests')
 
 
-
-
 @login_required(login_url='login-user')
 def onboard_employee(request, id):
     form = EmployeeForm()
     company_id = None
 
     company_id = request.user.id
-    secretary_name = CustomUser.objects.get(id=company_id).secretary_name
-    company_logo = CustomUser.objects.get(id=company_id).profile_image.url
     
     try:
         company_id = CustomUser.objects.get(id=id)
@@ -352,5 +348,5 @@ def onboard_employee(request, id):
     else:
         form = EmployeeForm()
 
-    context = {'form': form, 'secretary_name': secretary_name, 'company_logo': company_logo}
+    context = {'form': form}
     return render(request, 'reminder/onboard-employee.html', context)
