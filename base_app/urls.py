@@ -30,7 +30,7 @@ urlpatterns = [
     path('update-record-status/<str:type>/<uuid:id>/<str:action_type>/', views.update_query_status, name='update-record-status'),
 
 
-    path('onboard-employee/<int:pk>/', views.onboard_employee, name='onboard-employee'),
+    path('onboard-employee/<uuid:id>/', views.onboard_employee, name='onboard-employee'),
 
 
 
