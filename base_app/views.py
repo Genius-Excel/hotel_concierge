@@ -1,3 +1,4 @@
+from socket import socket
 from django.shortcuts import render, get_object_or_404, redirect
 from datetime import datetime
 from rest_framework import generics
@@ -18,6 +19,8 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
 from .models import CustomUser as User
+from .models import Employee, CustomUser
+from .forms import EmployeeForm
 
 
 ## Laundry Clinic View logic
@@ -264,3 +267,90 @@ def update_in_room_request_status(request, id, action_type):
     guests.save()
 
     return redirect('in-room-requests')
+
+
+
+
+@login_required(login_url='login-user')
+def onboard_employee(request, pk):
+    form = EmployeeForm()
+    company_id = None
+
+    company_id = request.user.id
+    secretary_name = CustomUser.objects.get(id=company_id).secretary_name
+    company_logo = CustomUser.objects.get(id=company_id).profile_image.url
+    
+    try:
+        company_id = CustomUser.objects.get(id=pk)
+    except ObjectDoesNotExist:
+        messages.error(request, "You are not authenticated")
+        return redirect('login-user')
+    
+    if request.method == "POST":
+        form = EmployeeForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            confirm_password = form.cleaned_data['confirm_password']
+            email = form.cleaned_data['email']
+
+            if password == confirm_password:
+                # check for any related existing data before creating employee account
+                if CustomUser.objects.filter(username=username).exists():
+                    messages.error(request, f"Username: {username} is already in use.")
+                elif CustomUser.objects.filter(email=email).exists():
+                    messages.error(request, f"Email already in use.")
+                else:
+                    new_employee = CustomUser.objects.create_user(
+                        username=username,
+                        password=password,
+                        email=email,
+                        is_employee=True
+                    )
+
+                    new_employee.save()
+
+                    clean_form = form.save(commit=False)
+                    clean_form.employee_user = new_employee
+                    clean_form.company = company_id
+                    clean_form.work_email = email
+
+
+                    # try cath any error while onbaording employee before saving to DB.
+                    try:
+                       
+                        template_context = {
+                            'employee_name': clean_form.full_name,
+                            'organisation_name': company_id.company_name,
+                            'username': username,
+                            'password': password,
+                        }
+                        # send email to employee with login details.
+                        send_email_with_html_template(
+                            template_file='email_templates/onboarding-success.html',
+                            template_context=template_context,
+                            email_address=email,
+                            subject='Welcome to Guest Assist',
+                            sender_name=company_id.company_name
+                        )
+
+                        # save data to Database
+                        clean_form.save()
+                        # display success message.
+                        messages.success(request, "You have successfully onboarded an employee.")
+                        return redirect('onboard-employee', pk)
+                    except socket.gaierror:
+                        messages.error(request, 'An error occured while trying to onboard employee, kindly check your internet connection.')
+                    except Exception as e:
+                        messages.error(request, f"Error: {e} occured. Please check your internet connection.")
+            
+            else:
+                messages.error(request, "Password does not match")
+        else:
+            messages.error(request, 'An error occurred during employee onboarding')
+            return redirect('onboard-employee', pk)
+    else:
+        form = EmployeeForm()
+
+    context = {'form': form, 'secretary_name': secretary_name, 'company_logo': company_logo}
+    return render(request, 'reminder/onboard-employee.html', context)
