@@ -272,7 +272,7 @@ def update_in_room_request_status(request, id, action_type):
 
 
 @login_required(login_url='login-user')
-def onboard_employee(request, pk):
+def onboard_employee(request, id):
     form = EmployeeForm()
     company_id = None
 
@@ -281,7 +281,7 @@ def onboard_employee(request, pk):
     company_logo = CustomUser.objects.get(id=company_id).profile_image.url
     
     try:
-        company_id = CustomUser.objects.get(id=pk)
+        company_id = CustomUser.objects.get(id=id)
     except ObjectDoesNotExist:
         messages.error(request, "You are not authenticated")
         return redirect('login-user')
@@ -338,7 +338,7 @@ def onboard_employee(request, pk):
                         clean_form.save()
                         # display success message.
                         messages.success(request, "You have successfully onboarded an employee.")
-                        return redirect('onboard-employee', pk)
+                        return redirect('onboard-employee', id)
                     except socket.gaierror:
                         messages.error(request, 'An error occured while trying to onboard employee, kindly check your internet connection.')
                     except Exception as e:
@@ -348,7 +348,7 @@ def onboard_employee(request, pk):
                 messages.error(request, "Password does not match")
         else:
             messages.error(request, 'An error occurred during employee onboarding')
-            return redirect('onboard-employee', pk)
+            return redirect('onboard-employee', id)
     else:
         form = EmployeeForm()
 
