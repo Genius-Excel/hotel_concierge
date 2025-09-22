@@ -6,13 +6,24 @@ from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):
     """Custom user model for Laundry Clinic"""
+    DEPARTMENT_CHOICES = [
+        ('Housekeeping', 'Housekeeping'),
+        ('Front Desk', 'Front Desk'),
+        ('Food and Beverage', 'Food and Beverage'),
+        ('Laundry', 'Laundry'),
+        ('Maintenance', 'Maintenance'),
+        ('Management', 'Management'),
+        ('Other', 'Other'),
+    ]
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True, null=False)
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True, null=True)
     phone_number = models.CharField(max_length=15, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    is_employee = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
+    department = models.CharField(max_length=150, null=True, choices=DEPARTMENT_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
