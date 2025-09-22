@@ -5,7 +5,6 @@ from . import views
 urlpatterns = [
   # Laundry Clinic PATHS
     #path('', views.home, name='home'),
-    path('api/send-customer-apology', views.CreateLaundryClinicEmailApology.as_view(), name='send-customer-apology'),
     path('api/laundry-clinic-voice-call', views.CreateLaundryClinicVoiceCall.as_view(), name='laundry-clinic-voice-call'),
     path('api/create-english-customer-query', views.CreateEnglishSpeakingCustomersQuery.as_view(), name='english-customers'),
     path('api/create-spanish-customer-query', views.CreateSpanishSpeakingCustomersQuery.as_view(), name='spanish-customers'),
