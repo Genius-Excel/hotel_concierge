@@ -277,7 +277,8 @@ def onboard_employee(request, id):
                         username=username,
                         password=password,
                         email=email,
-                        is_employee=True
+                        is_employee=True,
+                        department=form.cleaned_data['department']
                     )
 
                     new_employee.save()
