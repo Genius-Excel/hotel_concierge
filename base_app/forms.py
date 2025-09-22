@@ -16,7 +16,7 @@ class EmployeeForm(forms.ModelForm):
 
         widgets = {
             'full_name': forms.TextInput(attrs={'placeholder': 'Enter Employee\'s Full Name'}),
-            'department': forms.TextInput(attrs={'placeholder': 'Enter Employee\'s Department'}),
+            'department': forms.Select(attrs={'placeholder': 'Select Department'}, choices=Employee.DEPARTMENT_CHOICES),
         }
 
 
