@@ -305,17 +305,13 @@ def onboard_employee(request, id):
                             subject='Welcome to Guest Assist',
                             sender_name=company_id.company_name
                         )
-
                         # save data to Database
                         clean_form.save()
                         # display success message.
                         messages.success(request, "You have successfully onboarded an employee.")
                         return redirect('onboard-employee', id)
-                    except socket.gaierror:
-                        messages.error(request, 'An error occured while trying to onboard employee, kindly check your internet connection.')
                     except Exception as e:
                         messages.error(request, f"Error: {e} occured. Please check your internet connection.")
-            
             else:
                 messages.error(request, "Password does not match")
         else:
