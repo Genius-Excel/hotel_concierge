@@ -27,12 +27,23 @@ class CustomUser(AbstractUser):
 
 
 class Employee(models.Model):
+    """Employee model linked to CustomUser"""
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True, null=False)
+    DEPARTMENT_CHOICES = [
+        ('Housekeeping', 'Housekeeping'),
+        ('Front Desk', 'Front Desk'),
+        ('Food and Beverage', 'Food and Beverage'),
+        ('Laundry', 'Laundry'),
+        ('Maintenance', 'Maintenance'),
+        ('Management', 'Management'),
+        ('Other', 'Other'),
+    ]
     employee_user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='employee_profile')
     company = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='employees')
     full_name = models.CharField(max_length=150, null=True)
     work_email = models.CharField(max_length=150, null=True)
     profile_picture = models.ImageField(upload_to='profile_image/', default='profile_image/google-logo.png', null=True)
-    department = models.CharField(max_length=150, null=True)
+    department = models.CharField(max_length=150, null=True, choices=DEPARTMENT_CHOICES)
     
     def __str__(self):
         return f"Employee - {self.employee_user.username}"
