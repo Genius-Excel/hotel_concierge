@@ -39,30 +39,6 @@ class CreateUserView(generics.CreateAPIView):
         return user
 
 
-class CreateLaundryClinicEmailApology(generics.CreateAPIView):
-    queryset = HotelCustomerQuery.objects.all()
-    serializer_class = HotelCustomerQuerySerializer
-
-    def perform_create(self, serializer):
-        customer = serializer.save()
-
-        email_sender = 'Laundry Clinic'
-        email_subject = 'Follow up on service complaints.'
-        email_message = customer.ai_email_response
-        email_recipient = customer.email_address
-
-        custom_email_sender(email_recipient, email_subject, email_message, email_sender)
-
-        # determine cusomer language for SMS:
-        if customer.language_mode == "English":
-            english_sms_message = f"Dear {customer.first_name}, your complaint has been passed to one of our team members to deal with and an email acknowledgement has also been sent to you. We will contact you shortly with a resolution. Thank you for choosing Laundry Clinic."
-            custom_sms_sender('Laundry Clinic', customer.phone_number, english_sms_message)
-        else:
-            spanish_sms_message = f"Estimado {customer.first_name}, su queja se pasó a uno de los miembros de nuestro equipo para que la trate y también se le envió un acuse de recibo por correo electrónico. Nos comunicaremos con usted en breve con una resolución. Gracias por elegir Laundry Clinic."
-            custom_sms_sender('Laundry Clinic', customer.phone_number, spanish_sms_message)
-            
-
-
 class CreateLaundryClinicVoiceCall(generics.CreateAPIView):
     queryset = HotelCustomerVoiceCall.objects.all()
     serializer_class = HotelCustomerVoiceCallSerializer
