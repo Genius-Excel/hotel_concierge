@@ -11,7 +11,7 @@ from .serializers import (HotelCustomerQuerySerializer,
                           HotelCustomerVoiceCallSerializer, CreateUserSerializer)
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .utils import custom_email_sender, custom_sms_sender, send_email_with_html_template
+from .utils import custom_email_sender, send_email_with_html_template
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
