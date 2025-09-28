@@ -288,9 +288,6 @@ def onboard_employee(request, id):
                     clean_form.company = company_id
                     clean_form.work_email = email
                     clean_form.department = form.cleaned_data['department']
-
-
-                    # try cath any error while onbaording employee before saving to DB.
                     try:
                        
                         # template_context = {
