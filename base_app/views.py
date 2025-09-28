@@ -300,7 +300,7 @@ def onboard_employee(request, id):
                             template_context=template_context,
                             email_address=email,
                             subject='Welcome to Guest Assist',
-                            sender_name=company_id.company_name
+                            sender_name='Guest Assist Team'
                         )
                         clean_form.save()
                         # display success message.
