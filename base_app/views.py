@@ -295,7 +295,7 @@ def onboard_employee(request, id):
                             'password': password,
                         }
                         send_email_with_html_template(
-                            template_file='email_templates/onboarding-success.html',
+                            template_file='templates/reminder/email_templates/onboarding-success.html',
                             template_context=template_context,
                             email_address=email,
                             subject='Welcome to Guest Assist',
