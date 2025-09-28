@@ -5,7 +5,6 @@ from . import views
 urlpatterns = [
   # Laundry Clinic PATHS
     #path('', views.home, name='home'),
-    path('api/send-customer-apology', views.CreateLaundryClinicEmailApology.as_view(), name='send-customer-apology'),
     path('api/laundry-clinic-voice-call', views.CreateLaundryClinicVoiceCall.as_view(), name='laundry-clinic-voice-call'),
     path('api/create-english-customer-query', views.CreateEnglishSpeakingCustomersQuery.as_view(), name='english-customers'),
     path('api/create-spanish-customer-query', views.CreateSpanishSpeakingCustomersQuery.as_view(), name='spanish-customers'),
@@ -28,6 +27,10 @@ urlpatterns = [
     path('laundry-clinic-ai-call/detail/<uuid:id>/', views.get_laundry_clinic_ai_call_detail, name='ai-call-detail'),
     path('detail/<str:type>/<uuid:id>', views.get_detail_laundry_clinic_record, name='record-detail'),
     path('update-record-status/<str:type>/<uuid:id>/<str:action_type>/', views.update_query_status, name='update-record-status'),
+
+
+    path('onboard-employee/<uuid:id>/', views.onboard_employee, name='onboard-employee'),
+
 
 
 ]

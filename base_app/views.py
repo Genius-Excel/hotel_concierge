@@ -1,3 +1,4 @@
+from socket import socket
 from django.shortcuts import render, get_object_or_404, redirect
 from datetime import datetime
 from rest_framework import generics
@@ -10,7 +11,7 @@ from .serializers import (HotelCustomerQuerySerializer,
                           HotelCustomerVoiceCallSerializer, CreateUserSerializer)
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .utils import custom_email_sender, custom_sms_sender, send_email_with_html_template
+from .utils import custom_email_sender, send_email_with_html_template
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
@@ -18,6 +19,8 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
 from .models import CustomUser as User
+from .models import Employee, CustomUser
+from .forms import EmployeeForm
 
 
 ## Laundry Clinic View logic
@@ -34,30 +37,6 @@ class CreateUserView(generics.CreateAPIView):
         user = serializer.save()
         messages.success(self.request, "User created successfully!")
         return user
-
-
-class CreateLaundryClinicEmailApology(generics.CreateAPIView):
-    queryset = HotelCustomerQuery.objects.all()
-    serializer_class = HotelCustomerQuerySerializer
-
-    def perform_create(self, serializer):
-        customer = serializer.save()
-
-        email_sender = 'Laundry Clinic'
-        email_subject = 'Follow up on service complaints.'
-        email_message = customer.ai_email_response
-        email_recipient = customer.email_address
-
-        custom_email_sender(email_recipient, email_subject, email_message, email_sender)
-
-        # determine cusomer language for SMS:
-        if customer.language_mode == "English":
-            english_sms_message = f"Dear {customer.first_name}, your complaint has been passed to one of our team members to deal with and an email acknowledgement has also been sent to you. We will contact you shortly with a resolution. Thank you for choosing Laundry Clinic."
-            custom_sms_sender('Laundry Clinic', customer.phone_number, english_sms_message)
-        else:
-            spanish_sms_message = f"Estimado {customer.first_name}, su queja se pasó a uno de los miembros de nuestro equipo para que la trate y también se le envió un acuse de recibo por correo electrónico. Nos comunicaremos con usted en breve con una resolución. Gracias por elegir Laundry Clinic."
-            custom_sms_sender('Laundry Clinic', customer.phone_number, spanish_sms_message)
-            
 
 
 class CreateLaundryClinicVoiceCall(generics.CreateAPIView):
@@ -264,3 +243,77 @@ def update_in_room_request_status(request, id, action_type):
     guests.save()
 
     return redirect('in-room-requests')
+
+
+@login_required(login_url='login-user')
+def onboard_employee(request, id):
+    form = EmployeeForm()
+    company_id = None
+
+    company_id = request.user.id
+    
+    try:
+        company_id = CustomUser.objects.get(id=id)
+    except ObjectDoesNotExist:
+        messages.error(request, "You are not authenticated")
+        return redirect('login-user')
+    
+    if request.method == "POST":
+        form = EmployeeForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            confirm_password = form.cleaned_data['confirm_password']
+            email = form.cleaned_data['email']
+
+            if password == confirm_password:
+                # check for any related existing data before creating employee account
+                if CustomUser.objects.filter(username=username).exists():
+                    messages.error(request, f"Username: {username} is already in use.")
+                elif CustomUser.objects.filter(email=email).exists():
+                    messages.error(request, f"Email already in use.")
+                else:
+                    new_employee = CustomUser.objects.create_user(
+                        username=username,
+                        password=password,
+                        email=email,
+                        is_employee=True,
+                        department=form.cleaned_data['department']
+                    )
+
+                    new_employee.save()
+
+                    clean_form = form.save(commit=False)
+                    clean_form.employee_user = new_employee
+                    clean_form.company = company_id
+                    clean_form.work_email = email
+                    clean_form.department = form.cleaned_data['department']
+                    try:
+                        template_context = {
+                            'employee_name': clean_form.full_name,
+                            'username': username,
+                            'password': password,
+                        }
+                        send_email_with_html_template(
+                            template_file='email_templates/onboarding-success.html',
+                            template_context=template_context,
+                            email_address=email,
+                            subject='Welcome to Guest Assist',
+                            sender_name='Guest Assist Team'
+                        )
+                        clean_form.save()
+                        # display success message.
+                        messages.success(request, "You have successfully onboarded an employee.")
+                        return redirect('onboard-employee', id)
+                    except Exception as e:
+                        messages.error(request, f"Error: {e} occured. Please check your internet connection.")
+            else:
+                messages.error(request, "Password does not match")
+        else:
+            messages.error(request, 'An error occurred during employee onboarding')
+            return redirect('onboard-employee', id)
+    else:
+        form = EmployeeForm()
+
+    context = {'form': form}
+    return render(request, 'reminder/onboard-employee.html', context)

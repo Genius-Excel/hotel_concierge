@@ -1,0 +1,87 @@
+{% extends 'laundry-base.html' %}
+
+
+{% block title %} Add Employee  {%  endblock title %}
+
+{% block dashboard_inner %}
+<!-- dashboard inner -->
+<div class="midde_cont">
+   <div class="container-fluid">
+      <div class="row column_title">
+         <div class="col-md-12">
+            <div class="page_title">
+               <h2>Add an Employee</h2>
+
+                <!-- Start messages display -->
+                {% if messages %}
+                <div class="mb-10">
+                    <ul style="color: red;">
+                        {% for message in messages %}
+                        <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <!-- End messages display -->
+                {% endif %}
+            </div>
+         </div>
+      </div>
+      <div class="form-container">
+         <div class="form-content">
+            <form method="POST">
+                {% csrf_token %}
+               <div class="form-row">
+                  <div class="col mb-5">
+                    <label for="fullname">Full Name</label>
+                     {{form.full_name}}
+                  </div>
+                  <div class="col mb-5">
+                    <label for="username"> Employee Username</label>
+                     {{form.username}}
+                  </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="col mb-5">
+                        <label for="email">Employee Email</label>
+                        {{form.email}}
+                    </div>
+                    <div class="col mb-5">
+                        <label for="department">Department</label>
+                        {{form.department}}
+                    </div>
+                </div>
+
+                <div class="form-row">
+                        <div class="col mb-5">
+                        <label for="password">Password</label>
+                        {{form.password}}
+                        </div>
+                        <div class="col mb-5">
+                        <label for="confirm-password"> Confirm Password</label>
+                        {{form.confirm_password}}
+                        </div>
+                </div>
+
+                <div class="form-row">
+                        <div class="col">
+                            <a href="{{request.META.HTTP_REFERER}}" class="btn btn-warning mr-3" type="submit">Cancel</a>
+                            <button class="btn btn-primary" type="submit">Submit</button>
+                        </div>
+                </div>
+
+            </form>
+         </div>
+      </div>
+   </div>
+   <!-- footer -->
+   <div class="container-fluid">
+      <div class="footer">
+         <a href="https://www.optimizewithai.net">
+            <p>Powered by Optimizewithai</p>
+         </a>
+      </div>
+   </div>
+</div>
+<!-- end dashboard inner -->
+{% endblock dashboard_inner %}

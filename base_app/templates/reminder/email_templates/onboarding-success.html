@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Our Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .header {
+            background-color: #0044cc;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .content {
+            padding: 20px;
+        }
+        .content p {
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 10px 0;
+        }
+        .content .highlight {
+            color: #0044cc;
+            font-weight: bold;
+        }
+        .content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .content table, .content th, .content td {
+            border: 1px solid #dddddd;
+        }
+        .content th, .content td {
+            padding: 10px;
+            text-align: left;
+        }
+        .content .button {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            text-align: center;
+            padding: 10px;
+            background-color: #0044cc;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .footer {
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+            color: #777777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Welcome to Our Platform, {{ employee_name }}!</h1>
+        </div>
+        <div class="content">
+            <p>Dear <span class="highlight">{{ employee_name }}</span>,</p>
+            <p>We are excited to inform you that your account has been successfully created on our platform by {{ secretary_name }}. This platform will enable you to generate invites for your visitors in the future.</p>
+            <p>Your login credentials are as follows:</p>
+            <table>
+                <tr>
+                    <th>Username</th>
+                    <td>{{ username }}</td>
+                </tr>
+                <tr>
+                    <th>Password</th>
+                    <td>{{ password }}</td>
+                </tr>
+            </table>
+            <p>To ensure the security of your account, please log in and change your password immediately. You can log in using the button below:</p>
+            <a href="https://www.visitors.optimizewithai.net/login-user/" class="button">Log In to Your Account</a>
+            <p>Once you have logged in, follow the instructions to change your password. If you have any questions or need assistance, please do not hesitate to contact our support team.</p>
+            <p>Thank you for being a part of our team. We look forward to your contributions and hope you find the platform useful for managing your visitor invites.</p>
+            <p>Sincerely,</p>
+            <p><span class="highlight"> {{ organisation_name }} </span> Team</p>
+        </div>
+        <div class="footer">
+            &copy; 2024 Tros Technologies. All rights reserved.
+        </div>
+    </div>
+</body>
+</html>
