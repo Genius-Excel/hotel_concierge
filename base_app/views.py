@@ -291,7 +291,6 @@ def onboard_employee(request, id):
                     try:
                         template_context = {
                             'employee_name': clean_form.full_name,
-                            'organisation_name': company_id.company_name,
                             'username': username,
                             'password': password,
                         }
