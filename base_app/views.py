@@ -289,22 +289,19 @@ def onboard_employee(request, id):
                     clean_form.work_email = email
                     clean_form.department = form.cleaned_data['department']
                     try:
-                       
-                        # template_context = {
-                        #     'employee_name': clean_form.full_name,
-                        #     'organisation_name': company_id.company_name,
-                        #     'username': username,
-                        #     'password': password,
-                        # }
-                        # # send email to employee with login details.
-                        # send_email_with_html_template(
-                        #     template_file='email_templates/onboarding-success.html',
-                        #     template_context=template_context,
-                        #     email_address=email,
-                        #     subject='Welcome to Guest Assist',
-                        #     sender_name=company_id.company_name
-                        # )
-                        # # save data to Database
+                        template_context = {
+                            'employee_name': clean_form.full_name,
+                            'organisation_name': company_id.company_name,
+                            'username': username,
+                            'password': password,
+                        }
+                        send_email_with_html_template(
+                            template_file='email_templates/onboarding-success.html',
+                            template_context=template_context,
+                            email_address=email,
+                            subject='Welcome to Guest Assist',
+                            sender_name=company_id.company_name
+                        )
                         clean_form.save()
                         # display success message.
                         messages.success(request, "You have successfully onboarded an employee.")
