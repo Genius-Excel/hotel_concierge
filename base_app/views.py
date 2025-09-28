@@ -293,6 +293,7 @@ def onboard_employee(request, id):
                             'employee_name': clean_form.full_name,
                             'username': username,
                             'password': password,
+                            'department_name': clean_form.department,
                         }
                         send_email_with_html_template(
                             template_file='templates/reminder/email_templates/onboarding-success.html',
